@@ -1,0 +1,480 @@
+CREATE DATABASE  IF NOT EXISTS `dbdiego` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `dbdiego`;
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+--
+-- Host: localhost    Database: dbdiego
+-- ------------------------------------------------------
+-- Server version	8.0.34
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `carrinho`
+--
+
+DROP TABLE IF EXISTS `carrinho`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `carrinho` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `preco` decimal(10,2) NOT NULL,
+  `id_produto` int DEFAULT NULL,
+  `id_cliente` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_produto` (`id_produto`),
+  KEY `id_cliente` (`id_cliente`),
+  CONSTRAINT `carrinho_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id`),
+  CONSTRAINT `carrinho_ibfk_2` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `carrinho`
+--
+
+LOCK TABLES `carrinho` WRITE;
+/*!40000 ALTER TABLE `carrinho` DISABLE KEYS */;
+INSERT INTO `carrinho` VALUES (1,20.49,1,1),(2,15.99,3,1),(3,10.49,2,2),(4,5.99,4,2),(5,25.99,5,1);
+/*!40000 ALTER TABLE `carrinho` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cartao`
+--
+
+DROP TABLE IF EXISTS `cartao`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cartao` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome_do_titular` varchar(255) NOT NULL,
+  `numero_do_cartao` varchar(16) NOT NULL,
+  `3_digitos` varchar(3) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cartao`
+--
+
+LOCK TABLES `cartao` WRITE;
+/*!40000 ALTER TABLE `cartao` DISABLE KEYS */;
+INSERT INTO `cartao` VALUES (1,'João Silva','1111222233334444','123'),(2,'Maria Oliveira','5555666677778888','456'),(3,'Carlos Santos','9999000011112222','789'),(4,'Ana Pereira','4444333322221111','012'),(5,'Rafael Costa','8888777766665555','345');
+/*!40000 ALTER TABLE `cartao` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cliente`
+--
+
+DROP TABLE IF EXISTS `cliente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cliente` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `senha` varchar(255) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `telefone` varchar(15) DEFAULT NULL,
+  `nascimento` date DEFAULT NULL,
+  `genero` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cliente`
+--
+
+LOCK TABLES `cliente` WRITE;
+/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` VALUES (1,'joao@email.com','senha123','João Silva','(11) 1234-5678','1990-05-15','Masculino'),(2,'maria@email.com','senha456','Maria Oliveira','(21) 9876-5432','1985-08-22','Feminino'),(3,'carlos@email.com','senha789','Carlos Santos','(31) 5555-1212','1978-02-10','Masculino'),(4,'ana@email.com','senhaabc','Ana Pereira','(41) 8765-4321','1995-11-30','Feminino'),(5,'rafael@email.com','senhaxyz','Rafael Costa','(51) 3333-9999','1980-07-18','Masculino');
+/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `endereco`
+--
+
+DROP TABLE IF EXISTS `endereco`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `endereco` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `cep` varchar(8) NOT NULL,
+  `numero` int DEFAULT NULL,
+  `estado` varchar(50) DEFAULT NULL,
+  `cidade` varchar(50) DEFAULT NULL,
+  `rua` varchar(255) DEFAULT NULL,
+  `id_cliente` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_cliente` (`id_cliente`),
+  CONSTRAINT `endereco_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `endereco`
+--
+
+LOCK TABLES `endereco` WRITE;
+/*!40000 ALTER TABLE `endereco` DISABLE KEYS */;
+INSERT INTO `endereco` VALUES (1,'Casa','01234567',123,'SP','São Paulo','Rua da Casa',1),(2,'Trabalho','98765432',456,'RJ','Rio de Janeiro','Rua do Trabalho',1),(3,'Casa','54321098',789,'MG','Belo Horizonte','Rua da Minha Casa',2),(4,'Escritório','11112222',101,'SP','São Paulo','Rua do Escritório',3),(5,'Veraneio','88887777',999,'BA','Salvador','Rua da Praia',4);
+/*!40000 ALTER TABLE `endereco` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `estoque`
+--
+
+DROP TABLE IF EXISTS `estoque`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `estoque` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `quantidade_minima` int NOT NULL,
+  `id_lote` int DEFAULT NULL,
+  `id_farmacia` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_lote` (`id_lote`),
+  KEY `id_farmacia` (`id_farmacia`),
+  CONSTRAINT `estoque_ibfk_1` FOREIGN KEY (`id_lote`) REFERENCES `lote` (`id`),
+  CONSTRAINT `estoque_ibfk_2` FOREIGN KEY (`id_farmacia`) REFERENCES `farmacia` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `estoque`
+--
+
+LOCK TABLES `estoque` WRITE;
+/*!40000 ALTER TABLE `estoque` DISABLE KEYS */;
+INSERT INTO `estoque` VALUES (1,50,1,1),(2,30,2,1),(3,40,3,2),(4,25,4,2),(5,20,5,1);
+/*!40000 ALTER TABLE `estoque` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `farmaceutico`
+--
+
+DROP TABLE IF EXISTS `farmaceutico`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `farmaceutico` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `cpf` varchar(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `cpf` (`cpf`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `farmaceutico`
+--
+
+LOCK TABLES `farmaceutico` WRITE;
+/*!40000 ALTER TABLE `farmaceutico` DISABLE KEYS */;
+INSERT INTO `farmaceutico` VALUES (1,'12345678901'),(2,'23456789012'),(3,'34567890123'),(4,'45678901234'),(5,'56789012345');
+/*!40000 ALTER TABLE `farmaceutico` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `farmacia`
+--
+
+DROP TABLE IF EXISTS `farmacia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `farmacia` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `cnpj` varchar(14) NOT NULL,
+  `endereco` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `marca` varchar(255) DEFAULT NULL,
+  `telefone` varchar(15) DEFAULT NULL,
+  `id_funcionario` int DEFAULT NULL,
+  `id_farmaceutico` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `cnpj` (`cnpj`),
+  KEY `id_funcionario` (`id_funcionario`),
+  KEY `id_farmaceutico` (`id_farmaceutico`),
+  CONSTRAINT `farmacia_ibfk_1` FOREIGN KEY (`id_funcionario`) REFERENCES `funcionario` (`id`),
+  CONSTRAINT `farmacia_ibfk_2` FOREIGN KEY (`id_farmaceutico`) REFERENCES `farmaceutico` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `farmacia`
+--
+
+LOCK TABLES `farmacia` WRITE;
+/*!40000 ALTER TABLE `farmacia` DISABLE KEYS */;
+INSERT INTO `farmacia` VALUES (1,'Farmácia ABC','12345678901234','Rua Principal, 123','farmacia.abc@email.com','ABC','(11) 1234-5678',1,1),(2,'Farmácia XYZ','56789012345678','Avenida do Sul, 456','farmacia.xyz@email.com','XYZ','(21) 9876-5432',2,2),(3,'Farmácia 123','98765432101234','Rua da Esquina, 789','farmacia.123@email.com','123','(31) 5555-1212',3,3),(4,'Farmácia Saúde','45678901234567','Alameda da Saúde, 987','farmacia.saude@email.com','Saúde','(41) 8765-4321',4,4),(5,'Farmácia Bem-Estar','11112222333344','Praça do Bem-Estar, 101','farmacia.bemestar@email.com','Bem-Estar','(51) 3333-9999',5,5);
+/*!40000 ALTER TABLE `farmacia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `favoritos`
+--
+
+DROP TABLE IF EXISTS `favoritos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `favoritos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_produto` int DEFAULT NULL,
+  `id_cliente` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_produto` (`id_produto`),
+  KEY `id_cliente` (`id_cliente`),
+  CONSTRAINT `favoritos_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id`),
+  CONSTRAINT `favoritos_ibfk_2` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `favoritos`
+--
+
+LOCK TABLES `favoritos` WRITE;
+/*!40000 ALTER TABLE `favoritos` DISABLE KEYS */;
+INSERT INTO `favoritos` VALUES (1,1,1),(2,2,1),(3,3,2),(4,4,2),(5,5,1);
+/*!40000 ALTER TABLE `favoritos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `formapagamento`
+--
+
+DROP TABLE IF EXISTS `formapagamento`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `formapagamento` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(50) NOT NULL,
+  `id_pix` int DEFAULT NULL,
+  `id_cartao` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_pix` (`id_pix`),
+  KEY `id_cartao` (`id_cartao`),
+  CONSTRAINT `formapagamento_ibfk_1` FOREIGN KEY (`id_pix`) REFERENCES `pix` (`id`),
+  CONSTRAINT `formapagamento_ibfk_2` FOREIGN KEY (`id_cartao`) REFERENCES `cartao` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `formapagamento`
+--
+
+LOCK TABLES `formapagamento` WRITE;
+/*!40000 ALTER TABLE `formapagamento` DISABLE KEYS */;
+INSERT INTO `formapagamento` VALUES (1,'PIX',1,NULL),(2,'Cartão',NULL,1),(3,'PIX',2,NULL),(4,'Cartão',NULL,2),(5,'Cartão',NULL,3);
+/*!40000 ALTER TABLE `formapagamento` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `funcionario`
+--
+
+DROP TABLE IF EXISTS `funcionario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `funcionario` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `cpf` varchar(11) NOT NULL,
+  `senha` varchar(255) NOT NULL,
+  `funcao` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `cpf` (`cpf`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `funcionario`
+--
+
+LOCK TABLES `funcionario` WRITE;
+/*!40000 ALTER TABLE `funcionario` DISABLE KEYS */;
+INSERT INTO `funcionario` VALUES (1,'João Silva','12345678901','senha123','Atendente'),(2,'Maria Oliveira','23456789012','senha456','Farmacêutico'),(3,'Carlos Santos','34567890123','senha789','Gerente'),(4,'Ana Pereira','45678901234','senhaabc','Técnico de Laboratório'),(5,'Rafael Costa','56789012345','senhaxyz','Estoquista');
+/*!40000 ALTER TABLE `funcionario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `lote`
+--
+
+DROP TABLE IF EXISTS `lote`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `lote` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(50) NOT NULL,
+  `data` date NOT NULL,
+  `vencimento` date NOT NULL,
+  `quantidade` int NOT NULL,
+  `id_produto` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_produto` (`id_produto`),
+  CONSTRAINT `lote_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `lote`
+--
+
+LOCK TABLES `lote` WRITE;
+/*!40000 ALTER TABLE `lote` DISABLE KEYS */;
+INSERT INTO `lote` VALUES (1,'123ABC','2023-01-01','2023-12-31',100,1),(2,'456DEF','2023-02-01','2023-12-31',150,2),(3,'789GHI','2023-03-01','2023-12-31',200,3),(4,'012JKL','2023-04-01','2023-12-31',120,4),(5,'345MNO','2023-05-01','2023-12-31',80,5);
+/*!40000 ALTER TABLE `lote` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pix`
+--
+
+DROP TABLE IF EXISTS `pix`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pix` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `qrcode` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pix`
+--
+
+LOCK TABLES `pix` WRITE;
+/*!40000 ALTER TABLE `pix` DISABLE KEYS */;
+INSERT INTO `pix` VALUES (1,'ABCD1234'),(2,'EFGH5678'),(3,'IJKL9012'),(4,'MNOP3456'),(5,'QRST7890');
+/*!40000 ALTER TABLE `pix` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `produto`
+--
+
+DROP TABLE IF EXISTS `produto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `produto` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `descricao` text,
+  `marca` varchar(255) DEFAULT NULL,
+  `circulacao_restrita` tinyint(1) DEFAULT NULL,
+  `preco` decimal(10,2) NOT NULL,
+  `id_farmacia` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_farmacia` (`id_farmacia`),
+  CONSTRAINT `produto_ibfk_1` FOREIGN KEY (`id_farmacia`) REFERENCES `farmacia` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `produto`
+--
+
+LOCK TABLES `produto` WRITE;
+/*!40000 ALTER TABLE `produto` DISABLE KEYS */;
+INSERT INTO `produto` VALUES (1,'Paracetamol 500mg','Analgésico e antipirético','Genérico',0,5.99,1),(2,'Ibuprofeno 200mg','Anti-inflamatório','Medley',0,7.49,1),(3,'Dipirona 1g','Analgésico e antipirético','Genérico',1,8.99,1),(4,'Omeprazol 20mg','Inibidor de bomba de prótons','Aché',0,12.99,1),(5,'Vitamina C 500mg','Suplemento vitamínico','NatureMade',0,15.49,1);
+/*!40000 ALTER TABLE `produto` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `venda`
+--
+
+DROP TABLE IF EXISTS `venda`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `venda` (
+  `data` date NOT NULL,
+  `id_cliente` int NOT NULL,
+  `id_carrinho` int DEFAULT NULL,
+  `id_formapagamento` int DEFAULT NULL,
+  `id_endereco` int DEFAULT NULL,
+  `id_funcionario` int DEFAULT NULL,
+  `id_farmaceutico` int DEFAULT NULL,
+  PRIMARY KEY (`data`,`id_cliente`),
+  KEY `id_cliente` (`id_cliente`),
+  KEY `id_carrinho` (`id_carrinho`),
+  KEY `id_formapagamento` (`id_formapagamento`),
+  KEY `id_endereco` (`id_endereco`),
+  KEY `id_funcionario` (`id_funcionario`),
+  KEY `id_farmaceutico` (`id_farmaceutico`),
+  CONSTRAINT `venda_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id`),
+  CONSTRAINT `venda_ibfk_2` FOREIGN KEY (`id_carrinho`) REFERENCES `carrinho` (`id`),
+  CONSTRAINT `venda_ibfk_3` FOREIGN KEY (`id_formapagamento`) REFERENCES `formapagamento` (`id`),
+  CONSTRAINT `venda_ibfk_4` FOREIGN KEY (`id_endereco`) REFERENCES `endereco` (`id`),
+  CONSTRAINT `venda_ibfk_5` FOREIGN KEY (`id_funcionario`) REFERENCES `funcionario` (`id`),
+  CONSTRAINT `venda_ibfk_6` FOREIGN KEY (`id_farmaceutico`) REFERENCES `farmaceutico` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `venda`
+--
+
+LOCK TABLES `venda` WRITE;
+/*!40000 ALTER TABLE `venda` DISABLE KEYS */;
+INSERT INTO `venda` VALUES ('2023-01-01',1,1,1,1,1,1),('2023-02-01',2,2,2,2,2,2),('2023-03-01',1,3,3,1,1,1),('2023-04-01',2,4,4,2,2,2),('2023-05-01',1,5,5,1,1,1);
+/*!40000 ALTER TABLE `venda` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-11-12 15:15:18
+
+SELECT l.codigo AS codigo, p.nome, l.quantidade, l.id AS lote, l.vencimento
+FROM lote l
+LEFT JOIN produto p ON p.id = l.id_produto
+WHERE p.nome = 'Paracetamol 500mg';
+
+ALTER TABLE `dbdiego`.`venda` 
+ADD COLUMN `meio_de_compra` VARCHAR(45) NULL AFTER `id_farmaceutico`,
+ADD COLUMN `id_farmacia` INT NULL AFTER `meio_de_compra`,
+ADD INDEX `venda_farmacia_idx` (`id_farmacia` ASC) VISIBLE;
+;
+ALTER TABLE `dbdiego`.`venda` 
+ADD CONSTRAINT `venda_farmacia`
+  FOREIGN KEY (`id_farmacia`)
+  REFERENCES `dbdiego`.`farmacia` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+  
+UPDATE `dbdiego`.`venda` SET `meio_de_compra` = 'aplicativo', `id_farmacia` = '1' WHERE (`data` = '2023-01-01') and (`id_cliente` = '1');
+UPDATE `dbdiego`.`venda` SET `meio_de_compra` = 'aplicativo', `id_farmacia` = '2' WHERE (`data` = '2023-02-01') and (`id_cliente` = '2');
+UPDATE `dbdiego`.`venda` SET `meio_de_compra` = 'portal', `id_farmacia` = '1' WHERE (`data` = '2023-03-01') and (`id_cliente` = '1');
+UPDATE `dbdiego`.`venda` SET `meio_de_compra` = 'portal', `id_farmacia` = '2' WHERE (`data` = '2023-04-01') and (`id_cliente` = '2');
+UPDATE `dbdiego`.`venda` SET `meio_de_compra` = 'fisico', `id_farmacia` = '1' WHERE (`data` = '2023-05-01') and (`id_cliente` = '1');
+INSERT INTO `dbdiego`.`venda` (`data`, `id_cliente`, `id_carrinho`, `id_formapagamento`, `id_endereco`, `id_funcionario`, `id_farmaceutico`, `meio_de_compra`, `id_farmacia`) VALUES ('2023-11-01', '3', '3', '1', '3', '2', '4', 'aplicativo', '2');
+INSERT INTO `dbdiego`.`venda` (`data`, `id_cliente`, `id_carrinho`, `id_formapagamento`, `id_endereco`, `id_funcionario`, `id_farmaceutico`, `meio_de_compra`, `id_farmacia`) VALUES ('2023-11-01', '4', '2', '2', '4', '4', '2', 'aplicativo', '4');
+INSERT INTO `dbdiego`.`venda` (`data`, `id_cliente`, `id_carrinho`, `id_formapagamento`, `id_endereco`, `id_funcionario`, `id_farmaceutico`, `meio_de_compra`, `id_farmacia`) VALUES ('2023-11-10', '5', '4', '3', '2', '3', '3', 'portal', '3');
+INSERT INTO `dbdiego`.`venda` (`data`, `id_cliente`, `id_carrinho`, `id_formapagamento`, `id_endereco`, `id_funcionario`, `id_farmaceutico`, `meio_de_compra`, `id_farmacia`) VALUES ('2023-11-01', '2', '5', '4', '3', '1', '1', 'portal', '1');
+
+
